@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 2</title>
+	<link rel="stylesheet" type="text/css" href="static/jquery-comments.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="static/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="static/jquery-comments.js"></script>
+    <!-- Data -->
+    <!--<script type="text/javascript" src="static/comments-data.js"></script>-->
+    <script type="text/javascript" src="static/comments-data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
+    </head>
+
+<style type="text/css">
+    table
+        { 
+        margin-left: auto;
+        margin-right: auto;
+        } 
+    tr
+        {
+        vertical-align=top;
+        margin-top: 0;
+        border-top: 0;
+        padding-top: 0;
+        }
+    td
+        {
+        vertical-align=top;
+        margin-top: 0;
+        border-top: 0;
+        padding-top: 0;
+        }
+</style>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <p id=comments-container> No </p>
+            </td>
+            <td>
+                <p class=comments-container> Yes </p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+<!--
+<script type="text/javascript">
+	$('#comments-container').comments({
+    profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
+    getComments: function(success, error) {
+        var commentsArray = [{
+            id: 5,
+            created: '2015-10-01',
+            content: ' ipsum dolort sit amet',
+            fullname: 'Simon Powell',
+            upvote_count: 90000,
+            user_has_upvoted: false
+        }];
+        success(commentsArray);
+    }
+});	
+
+    $('.comments-container').comments({
+    profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
+    getComments: function(success, error) {
+        var commentsArray = [{
+            id: 1,
+            created: '2015-10-01',
+            content: 'Lorem ipsum dolort sit amet',
+            fullname: 'Simon Powell',
+            upvote_count: 2,
+            user_has_upvoted: false
+        }];
+        success(commentsArray);
+    }
+});
+</script>
+-->
+
+<!-- Init jquery-comments -->
+<script type="text/javascript">
+    $(function() {
+        var saveComment = function(data) {
+            // Convert pings to human readable format
+            $(data.pings).each(function(index, id) {
+                var user = usersArray.filter(function(user){return user.id == id})[0];
+                data.content = data.content.replace('@' + id, '@' + user.fullname);
+            });
+
+            return data;
+        }
+        $('.comments-container').comments({
+            profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
+            currentUserId: 1,
+            roundProfilePictures: true,
+            textareaRows: 1,
+            enableAttachments: true,
+            enableHashtags: true,
+            enablePinging: true,
+            getUsers: function(success, error) {
+                var usersArray = [];
+                setTimeout(function() {
+                    success(usersArray);
+                }, 500);
+            },
+            getComments: function(success, error) {
+                //setTimeout(function() {
+                    var commentsArray = [];
+                    $.getJSON('static\\comments-data-chat-right.json', function (json) {
+                        //console.log(commentsArray["commentsArray"]);
+                        //console.log(commentsArray["commentsArray"]);
+                    for (var key in json["commentsArray"]) {
+                        if (json.hasOwnProperty("commentsArray")) {
+                            console.log(commentsArray)
+                            var item = json["commentsArray"][key];
+                            commentsArray.push({
+                                id: item.id,
+                                parent: item.parent,
+                                created: item.created,
+                                modified: item.modified,
+                                content: item.content,
+                                pings: [],
+                                creator: item.creator,
+                                fullname: item.fullname,
+                                profile_picture_url: item.profile_picture_url,
+                                created_by_admin: item.created_by_admin,
+                                created_by_current_user: item.created_by_current_user,
+                                upvote_count: item.upvote_count,
+                                user_has_upvoted: item.user_has_upvoted
+                            });            
+                        }
+                    }
+                   success(commentsArray);
+                    });
+
+                //}, 500);
+            },
+            
+            postComment: function(data, success, error) {
+                setTimeout(function() {
+                $.ajax({
+                        url: '/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 1000);
+            },            
+            /*
+            postComment: function(data, success, error) {
+                setTimeout(function() {
+                    success(saveComment(data));
+                }, 500);
+            },*/
+
+            putComment: function(data, success, error) {
+                setTimeout(function() {
+                    $.ajax({
+                        url: '/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            deleteComment: function(data, success, error) {
+                setTimeout(function() {
+                    $.ajax({
+                        url: '/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            success();
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            upvoteComment: function(data, success, error) {
+                setTimeout(function() {
+                    $.ajax({
+                        url: '/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            uploadAttachments: function(dataArray, success, error) {
+                setTimeout(function() {
+                    success(dataArray);
+                }, 500);
+            },
+        });
+
+        $('#comments-container').comments({
+            profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
+            currentUserId: 1,
+            roundProfilePictures: true,
+            textareaRows: 1,
+            enableAttachments: true,
+            enableHashtags: true,
+            enablePinging: true,
+            getUsers: function(success, error) {
+                setTimeout(function() {
+                    success(usersArray);
+                }, 500);
+            },
+            getComments: function(success, error) {
+                setTimeout(function() {
+                    console.log("commentsArray")
+                    console.log(commentsArray)
+                    success(commentsArray);
+                }, 500);
+            },
+            postComment: function(data, success, error) {
+                setTimeout(function() {
+                    success(saveComment(data));
+                }, 500);
+            },
+            putComment: function(data, success, error) {
+                setTimeout(function() {
+                    success(saveComment(data));
+                }, 500);
+            },
+            deleteComment: function(data, success, error) {
+                setTimeout(function() {
+                    success();
+                }, 500);
+            },
+            upvoteComment: function(data, success, error) {
+                setTimeout(function() {
+                    success(data);
+                }, 500);
+            },
+            uploadAttachments: function(dataArray, success, error) {
+                setTimeout(function() {
+                    success(dataArray);
+                }, 500);
+            },
+        });
+
+
+    });
+</script>
+
+</html>

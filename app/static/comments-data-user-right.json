@@ -1,0 +1,64 @@
+{
+    "commentsArray": [
+        {
+            "parent": null, 
+            "created": "2017-03-27", 
+            "created_by_admin": false, 
+            "creator": 1, 
+            "modified": "2017-03-27", 
+            "pings": [], 
+            "content": "llllollll", 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/admin-user-icon.png", 
+            "fullname": "You", 
+            "upvote_count": 0, 
+            "user_has_upvoted": false, 
+            "id": 1, 
+            "created_by_current_user": true
+        }, 
+        {
+            "parent": null, 
+            "created": "2017-03-27", 
+            "created_by_admin": false, 
+            "creator": 1, 
+            "modified": "2017-03-27", 
+            "pings": [], 
+            "content": "kkkk", 
+            "profile_picture_url": "https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png", 
+            "fullname": "You", 
+            "upvote_count": 0, 
+            "user_has_upvoted": false, 
+            "id": 4, 
+            "created_by_current_user": true
+        }, 
+        {
+            "parent": "1", 
+            "creator": 1, 
+            "created_by_admin": false, 
+            "created": "2017-03-27", 
+            "modified": "2017-03-27", 
+            "pings": [], 
+            "content": "No wayyyy dudde\n", 
+            "profile_picture_url": "https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png", 
+            "fullname": "You", 
+            "upvote_count": 0, 
+            "user_has_upvoted": false, 
+            "id": 3, 
+            "created_by_current_user": true
+        }, 
+        {
+            "parent": "4", 
+            "creator": 1, 
+            "pings": [], 
+            "profile_picture_url": "https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png", 
+            "upvote_count": 0, 
+            "id": 5, 
+            "created": "2017-03-27", 
+            "created_by_admin": false, 
+            "modified": "2017-03-27", 
+            "content": "kkllll", 
+            "fullname": "You", 
+            "user_has_upvoted": false, 
+            "created_by_current_user": true
+        }
+    ]
+}
