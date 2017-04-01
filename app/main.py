@@ -106,6 +106,7 @@ def add_item_to_table(username, password):
 # Create a new user and save them in the database.
 def send_to_server_right():
     import json
+    from datetime import datetime
     client = boto3.client('dynamodb')
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('userdata')
@@ -131,7 +132,7 @@ def send_to_server_right():
         
     parent = request.form['parent']
     if parent == "":
-        parent = 'null'
+        parent_temp = 'null'
     created = request.form['created'][0:10]
     creator = 1
     modified = request.form['modified'][0:10]
@@ -150,7 +151,7 @@ def send_to_server_right():
 
     client.put_item(TableName='chatdata',
                     Item={'id': {'N': str(id)},
-                          'parent': {'S': parent},
+                          'parent': {'S': parent_temp},
                           'created': {'S': created},
                           'modified': {'S': modified},
                           'content': {'S': content},
@@ -166,7 +167,8 @@ def send_to_server_right():
         simplejson = json.load(data)
 
     commentsArray = simplejson["commentsArray"]
-    lst = {'id': id, 'parent': parent, 'created': created,
+    time = datetime.now().strftime('%Y%m%d%H%M%S')
+    lst = {'modacc': time, 'id': id, 'parent': parent, 'created': created,
            'modified': modified, 'content': content,
            'fullname': fullname, 'pings': [],
            'profile_picture_url': profile_picture_url,
@@ -179,6 +181,10 @@ def send_to_server_right():
     commentsArray.append(lst)
 
     # commentsArray = set(commentsArray)
+    commentsArray.sort(key=lambda modacc: modacc, reverse=True)
+    print 'after: ' , lst
+
+    # commentsArray = set(commentsArray)
 
     with open("app\static\comments-data-chat-right.json", "w") as outfile:
         json.dump({'commentsArray': commentsArray}, outfile, indent=4)
@@ -189,6 +195,7 @@ def send_to_server_right():
 # Create a new user and save them in the database.
 def send_to_server_left():
     import json
+    from datetime import datetime
     client = boto3.client('dynamodb')
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('userdata')
@@ -240,11 +247,12 @@ def send_to_server_left():
                           'user_has_upvoted': {'BOOL': user_has_upvoted},
                           'chatdata': {'S': 'chatdata'}})
 
-    with open("app\static\comments-data-chat-right.json", "r") as data:
+    with open("app\static\comments-data-chat-left.json", "r") as data:
         simplejson = json.load(data)
 
     commentsArray = simplejson["commentsArray"]
-    lst = {'id': id, 'parent': parent, 'created': created,
+    time = datetime.now().strftime('%Y%m%d%H%M%S')
+    lst = {'modacc': time, 'id': id, 'parent': parent, 'created': created,
            'modified': modified, 'content': content,
            'fullname': fullname, 'pings': [],
            'profile_picture_url': profile_picture_url,
@@ -257,9 +265,11 @@ def send_to_server_left():
     commentsArray.append(lst)
 
     # commentsArray = set(commentsArray)
+    print 'before: ', lst
+    commentsArray.sort(key=lambda x: x.modacc, reverse=True)
+    print 'after: ' , lst
 
-    with open("app\static\comments-data-chat-right.json", "w") as outfile:
+    with open("app\static\comments-data-chat-left.json", "w") as outfile:
         json.dump({'commentsArray': commentsArray}, outfile, indent=4)
 
     return 'Data successfully sent to server!'
-

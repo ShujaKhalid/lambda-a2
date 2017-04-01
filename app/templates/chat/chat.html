@@ -10,7 +10,7 @@
     <!--<script type="text/javascript" src="static/comments-data.js"></script>-->
     <script type="text/javascript" src="static/comments-data.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
-    </head>
+</head>
 
 <style type="text/css">
     table
@@ -110,12 +110,15 @@
             getComments: function(success, error) {
                 //setTimeout(function() {
                     var commentsArray = [];
-                    $.getJSON('static\\comments-data-chat-right.json', function (json) {
+                    var src = 'static\\comments-data-chat-right.json?nocache=' + (new Date()).getTime();
+                    console.log(src);
+                    $.getJSON(src, function (json) {
                         //console.log(commentsArray["commentsArray"]);
-                        //console.log(commentsArray["commentsArray"]);
+                        //console.log(json["commentsArray"]);
+                        //location.reload();
                     for (var key in json["commentsArray"]) {
                         if (json.hasOwnProperty("commentsArray")) {
-                            console.log(commentsArray)
+                            console.log(json["commentsArray"][key])
                             var item = json["commentsArray"][key];
                             commentsArray.push({
                                 id: item.id,
@@ -134,9 +137,10 @@
                             });            
                         }
                     }
-                   success(commentsArray);
+                    console.log("print before")
+                    success(commentsArray);
+                    console.log("print after")
                     });
-
                 //}, 500);
             },
             
@@ -162,6 +166,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
+                            console.log(data.modified)
                             success(saveComment(data));
                         },
                         error: function () {
@@ -179,6 +184,8 @@
 
             putComment: function(data, success, error) {
                 setTimeout(function() {
+                    var now = new Date();
+                    var str = now.toISOString();
                     $.ajax({
                         url: '/comments_right',
                         type: 'post',
@@ -186,7 +193,7 @@
                             id: data.id, 
                             parent : data.parent,
                             created : data.created,
-                            modified : data.modified,
+                            modified : str,
                             content : data.content,
                             pings : data.pings,
                             creator : data.creator,
@@ -199,6 +206,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
+                            console.log(now.toISOString().substring(0, 10));
                             success(saveComment(data));
                         },
                         error: function () {
