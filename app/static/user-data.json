@@ -1,0 +1,8 @@
+{
+    "usersArray": [
+      id: 1,
+      fullname: "Current User",
+      email: "current.user@viima.com",
+      profile_picture_url: "https://app.viima.com/static/media/user_profiles/user-icon.png"
+    ]
+}

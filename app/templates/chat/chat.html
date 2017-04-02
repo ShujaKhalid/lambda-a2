@@ -4,7 +4,11 @@
 	<title>Assignment 2</title>
 	<link rel="stylesheet" type="text/css" href="static/jquery-comments.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="static/jssocials.css" />
+    <link rel="stylesheet" type="text/css" href="static/jssocials-theme-flat.css" /> 
     <script type="text/javascript" src="static/jquery-3.2.0.js"></script>
+    <script src="static/jssocials.min.js"></script>       
     <script type="text/javascript" src="static/jquery-comments.js"></script>
     <!-- Data -->
     <!--<script type="text/javascript" src="static/comments-data.js"></script>-->
@@ -15,74 +19,86 @@
 <style type="text/css">
     table
         { 
-        margin-left: auto;
         margin-right: auto;
+        margin-left: auto;
+        column-count: 2;
         } 
-    tr
-        {
-        vertical-align=top;
-        margin-top: 0;
-        border-top: 0;
-        padding-top: 0;
-        }
     td
         {
-        vertical-align=top;
-        margin-top: 0;
-        border-top: 0;
-        padding-top: 0;
+        vertical-align: text-top;
+        column-width: 1500px;
         }
+.comments-container {
+        background-color: #F5F5F5; 
+        }
+#comments-container {
+        background-color: #F5F5F5; 
+        }      
+#shareIconsCountInside {
+            vertical-align: center
+        }
+    button {
+            vertical-align: center;
+            margin-left: auto;
+        }  
 </style>
+
 
 <body>
     <table>
+        <tr id=shareIconsCountInside></tr>
         <tr>
-            <td>
-                <p id=comments-container> No </p>
+            <form>
+                <button type="submit" formaction="/login">Login</button>
+            </form>
+        </tr>
+        <tr>
+            <form>
+                <td>
+                    <button type="submit" formaction="/vote_agree">Agree</button>
+                </td>
+                <td>
+                    <button type="submit" formaction="/vote_disagree">Disagree</button>
+                </td>
+            </form>
+        </tr>
+        <tr>
+            <td >
+                <p id=comments-container></p>
             </td>
-            <td>
-                <p class=comments-container> Yes </p>
+            <td >
+                <p class=comments-container></p>
             </td>
         </tr>
     </table>
 </body>
 
 <!--
-<script type="text/javascript">
-	$('#comments-container').comments({
-    profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
-    getComments: function(success, error) {
-        var commentsArray = [{
-            id: 5,
-            created: '2015-10-01',
-            content: ' ipsum dolort sit amet',
-            fullname: 'Simon Powell',
-            upvote_count: 90000,
-            user_has_upvoted: false
-        }];
-        success(commentsArray);
-    }
-});	
-
-    $('.comments-container').comments({
-    profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
-    getComments: function(success, error) {
-        var commentsArray = [{
-            id: 1,
-            created: '2015-10-01',
-            content: 'Lorem ipsum dolort sit amet',
-            fullname: 'Simon Powell',
-            upvote_count: 2,
-            user_has_upvoted: false
-        }];
-        success(commentsArray);
-    }
-});
-</script>
+<body>
+    <div>
+         <p id=comments-container></p>
+    </div>
+    <div>
+         <p class=comments-container></p>
+    </div>
+</body>
 -->
+
 
 <!-- Init jquery-comments -->
 <script type="text/javascript">
+
+    //$('.comments-container').width(700)
+    //$('#comments-container').width(700)
+
+    $("#shareIconsCountInside").jsSocials({
+    url: "http://www.google.com",
+    text: "Google Search Page",
+    showLabel: false,
+    showCount: "inside",
+    shares: ["twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon"]
+});
+
     $(function() {
         var saveComment = function(data) {
             // Convert pings to human readable format
@@ -166,7 +182,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
-                            console.log(data.modified)
+                            console.log('posted comment');
                             success(saveComment(data));
                         },
                         error: function () {
@@ -175,15 +191,10 @@
                     });
                 }, 1000);
             },            
-            /*
-            postComment: function(data, success, error) {
-                setTimeout(function() {
-                    success(saveComment(data));
-                }, 500);
-            },*/
 
             putComment: function(data, success, error) {
                 setTimeout(function() {
+                    console.log("editing comment");
                     var now = new Date();
                     var str = now.toISOString();
                     $.ajax({
@@ -206,7 +217,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
-                            console.log(now.toISOString().substring(0, 10));
+                            console.log("edited comment");
                             success(saveComment(data));
                         },
                         error: function () {
@@ -218,7 +229,7 @@
             deleteComment: function(data, success, error) {
                 setTimeout(function() {
                     $.ajax({
-                        url: '/comments_right',
+                        url: '/del_comments_right',
                         type: 'post',
                         data: { 
                             id: data.id, 
@@ -237,6 +248,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
+                            console.log("deleted");
                             success();
                         },
                         error: function () {
@@ -267,6 +279,7 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
+                            console.log("upvoted");
                             success(saveComment(data));
                         },
                         error: function () {
@@ -281,6 +294,18 @@
                 }, 500);
             },
         });
+
+
+        /*
+        if ($('#comments-container').height() > $('.comments-container').height()) {
+            $('.comments-container').height($('#comments-container').height());
+        } else {
+            $('#comments-container').height($('.comments-container').height());
+        };
+        */   
+
+        console.log($('#comments-container').height())
+        console.log($('.comments-container').height())
 
         $('#comments-container').comments({
             profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
