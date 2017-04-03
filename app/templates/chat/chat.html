@@ -3,8 +3,7 @@
 <head>
 	<title>Assignment 2</title>
 	<link rel="stylesheet" type="text/css" href="static/jquery-comments.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="static/font-awesome.css" />
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="static/jssocials.css" />
     <link rel="stylesheet" type="text/css" href="static/jssocials-theme-flat.css" /> 
     <script type="text/javascript" src="static/jquery-3.2.0.js"></script>
@@ -14,6 +13,7 @@
     <!--<script type="text/javascript" src="static/comments-data.js"></script>-->
     <script type="text/javascript" src="static/comments-data.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <style type="text/css">
@@ -41,17 +41,53 @@
             vertical-align: center;
             margin-left: auto;
         }  
+.jssocials-share-link { border-radius: 50%; }
+.bgcolagree { background-color: green; }
+.bgcoldisagree { background-color: blue; }
 </style>
 
 
 <body>
+
+    <!-- Navbar (sit on top) -->
+    <div class="w3-top">
+      <div class="w3-bar w3-white w3-card-2" id="myNavbar">
+        <a href="/debate" class="w3-bar-item w3-button w3-wide">Name of Website!</a>
+        <a href="#icons" class="w3-bar-item w3-center w3-wide" id=shareRoundIcons></a>
+        <!-- Right-sided navbar links -->
+        <a href="#contact" class="w3-bar-item w3-right w3-button"><i class="fa fa-user"></i> Login</a>
+        <div class="w3-bar w3-bar-block w3-center">
+            <a href="/vote_agree" class="bgcolagree w3-center w3-button">AGREE</a>
+            <a href="/vote_disagree" class="bgcoldisagree w3-center w3-button"></i> DISAGREE</a>   
+        </div>
+
+        <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sidebar on small screens when clicking the menu icon -->
+    <nav class="w3-sidebar w3-bar-block w3-black w3-card-2 w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+      <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+      <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
+      <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
+      <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">PRICING</a>
+      <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
+      <a href="#icons" id=shareRoundIcons></a>
+    </nav>
+
     <table>
-        <tr id=shareIconsCountInside></tr>
+        <tr id=shareRoundIcons></tr>
         <tr>
             <form>
                 <button type="submit" formaction="/login">Login</button>
             </form>
         </tr>
+        <!--
         <tr>
             <form>
                 <td>
@@ -62,6 +98,7 @@
                 </td>
             </form>
         </tr>
+        -->
         <tr>
             <td >
                 <p id=comments-container></p>
@@ -71,6 +108,21 @@
             </td>
         </tr>
     </table>
+
+    <!-- Footer -->
+    <footer class="w3-center w3-black w3-padding-64">
+      <a href="debate" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+      <div class="w3-xlarge w3-section">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-snapchat w3-hover-opacity"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+      </div>
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    </footer>
+
 </body>
 
 <!--
@@ -88,16 +140,29 @@
 <!-- Init jquery-comments -->
 <script type="text/javascript">
 
+    // Toggle between showing and hiding the sidebar when clicking the menu icon
+    var mySidebar = document.getElementById("mySidebar");
+
+    function w3_open() {
+        if (mySidebar.style.display === 'block') {
+            mySidebar.style.display = 'none';
+        } else {
+            mySidebar.style.display = 'block';
+        }
+    }
+
+    // Close the sidebar with the close button
+    function w3_close() {
+        mySidebar.style.display = "none";
+    }
     //$('.comments-container').width(700)
     //$('#comments-container').width(700)
 
-    $("#shareIconsCountInside").jsSocials({
-    url: "http://www.google.com",
-    text: "Google Search Page",
-    showLabel: false,
-    showCount: "inside",
-    shares: ["twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon"]
-});
+    $("#shareRoundIcons").jsSocials({
+        showLabel: false,
+        showCount: false,
+        shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
+    });
 
     $(function() {
         var saveComment = function(data) {
