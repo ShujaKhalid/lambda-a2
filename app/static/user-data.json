@@ -1,8 +1,52 @@
 {
     "usersArray": [
-      id: 1,
-      fullname: "Current User",
-      email: "current.user@viima.com",
-      profile_picture_url: "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        {
+            "email": "current.user@viima.com", 
+            "fullname": "Current User", 
+            "id": 1, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        }, 
+        {
+            "username": "sssk9797", 
+            "email": "sssk9797@gmail.com", 
+            "id": 1, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        }, 
+        {
+            "username": "sssk9797", 
+            "email": "sssk9797@gmail.com", 
+            "id": 2, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        }, 
+        {
+            "username": "sssk9797", 
+            "id": 3, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png", 
+            "email": "sssk9797@gmail.com"
+        }, 
+        {
+            "username": "sssk9797", 
+            "id": 4, 
+            "email": "sssk9797@gmail.com", 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        }, 
+        {
+            "username": "skaziz", 
+            "email": "sajeelk7@gmail.com", 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png", 
+            "id": 5
+        }, 
+        {
+            "username": "skaziz", 
+            "email": "sajeelk7@gmail.com", 
+            "id": 6, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png"
+        }, 
+        {
+            "username": "sssk9797", 
+            "id": 7, 
+            "profile_picture_url": "https://app.viima.com/static/media/user_profiles/user-icon.png", 
+            "email": "sssk9797@gmail.com"
+        }
     ]
 }

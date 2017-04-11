@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Assignment 2</title>
-	<link rel="stylesheet" type="text/css" href="static/jquery-comments.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="static/jssocials.css" />
-    <link rel="stylesheet" type="text/css" href="static/jssocials-theme-flat.css" /> 
-    <script type="text/javascript" src="static/jquery-3.2.0.js"></script>
-    <script src="static/jssocials.min.js"></script>       
-    <script type="text/javascript" src="static/jquery-comments.js"></script>
+    <title>Assignment 2</title>
+    <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/ece1779bucket2/jquery-comments.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/ece1779bucket2/jssocials.css" />
+    <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/ece1779bucket2/jssocials-theme-flat.css" /> 
+    <script type="text/javascript" src="https://s3.amazonaws.com/ece1779bucket2/jquery-3.2.0.js"></script>
+    <script src="https://s3.amazonaws.com/ece1779bucket2/jssocials.min.js"></script>       
+    <script type="text/javascript" src="https://s3.amazonaws.com/ece1779bucket2/jquery-comments.js"></script>
     <!-- Data -->
     <!--<script type="text/javascript" src="static/comments-data.js"></script>-->
-    <script type="text/javascript" src="static/comments-data.js"></script>
+    <script type="text/javascript" src="https://s3.amazonaws.com/ece1779bucket2/comments-data.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
@@ -54,13 +54,14 @@
     <!-- Navbar (sit on top) -->
     <div class="w3-top">
       <div class="w3-bar w3-white w3-card-2" id="myNavbar">
-        <a href="/debate" class="w3-bar-item w3-button w3-wide">Name of Website!</a>
+        <a href="/dev/debate" class="w3-bar-item w3-button w3-wide">Majority Rules!</a>
         <a href="#icons" class="w3-bar-item w3-center w3-wide" id=shareRoundIcons></a>
         <!-- Right-sided navbar links -->
-        <a href="#contact" class="w3-bar-item w3-right w3-button"><i class="fa fa-user"></i> Login</a>
+        <a href="/dev/results" class="w3-bar-item w3-right w3-button"><i class="fa fa-poll"></i> View Results </a>
+        <a href="/dev/login" class="w3-bar-item w3-right w3-button"><i class="fa fa-user"></i> {{username if username != None}} </a>
         <div class="w3-bar w3-bar-block w3-center">
-            <a href="/vote_agree" class="bgcolagree w3-center w3-button">AGREE</a>
-            <a href="/vote_disagree" class="bgcoldisagree w3-center w3-button"></i> DISAGREE</a>   
+            <a href="/dev/vote_agree" class="bgcolagree w3-center w3-button">AGREE</a>
+            <a href="/dev/vote_disagree" class="bgcoldisagree w3-center w3-button"></i> DISAGREE</a>   
         </div>
 
         <!-- Hide right-floated links on small screens and replace them with a menu icon -->
@@ -86,7 +87,7 @@
         <tr id=shareRoundIcons></tr>
         <tr>
             <form>
-                <button type="submit" formaction="/login">Login</button>
+                <button type="submit" formaction="/dev/login">{{username if username != None}}</button>
             </form>
         </tr>
         <!--
@@ -176,7 +177,8 @@
 
             return data;
         }
-        $('.comments-container').comments({
+        
+        $('#comments-container').comments({
             profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
             currentUserId: 1,
             roundProfilePictures: true,
@@ -193,7 +195,8 @@
             getComments: function(success, error) {
                 //setTimeout(function() {
                     var commentsArray = [];
-                    var src = 'static\\comments-data-chat-right.json?nocache=' + (new Date()).getTime();
+                    // var src = 'https://s3.amazonaws.com/ece1779bucket2/comments-data-chat-right.json?nocache=' + (new Date()).getTime();
+                    var src = 'https://s3.amazonaws.com/ece1779bucket2/comments-data-chat-left.json?nocache=' + (new Date()).getTime();
                     console.log(src);
                     $.getJSON(src, function (json) {
                         //console.log(commentsArray["commentsArray"]);
@@ -230,7 +233,7 @@
             postComment: function(data, success, error) {
                 setTimeout(function() {
                 $.ajax({
-                        url: '/comments_right',
+                        url: '/dev/comments_left',
                         type: 'post',
                         data: { 
                             id: data.id, 
@@ -265,7 +268,7 @@
                     var now = new Date();
                     var str = now.toISOString();
                     $.ajax({
-                        url: '/comments_right',
+                        url: '/dev/comments_left',
                         type: 'post',
                         data: { 
                             id: data.id, 
@@ -296,7 +299,38 @@
             deleteComment: function(data, success, error) {
                 setTimeout(function() {
                     $.ajax({
-                        url: '/del_comments_right',
+                        url: '/dev/del_comments_left',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        },
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            console.log("deleted");
+                            success();
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            upvoteComment: function(data, success, error) {
+                setTimeout(function() {
+                    $.ajax({
+                        url: '/dev/comments_left',
                         type: 'post',
                         data: { 
                             id: data.id, 
@@ -315,6 +349,163 @@
                         } ,
                         //contentType: 'application/json; charset=utf-8',
                         success: function (response) {
+                            console.log("upvoted");
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            uploadAttachments: function(dataArray, success, error) {
+                setTimeout(function() {
+                    success(dataArray);
+                }, 500);
+            },
+        });
+        
+        
+        $('.comments-container').comments({
+            profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
+            currentUserId: 1,
+            roundProfilePictures: true,
+            textareaRows: 1,
+            enableAttachments: true,
+            enableHashtags: true,
+            enablePinging: true,
+            getUsers: function(success, error) {
+                var usersArray = [];
+                setTimeout(function() {
+                    success(usersArray);
+                }, 500);
+            },
+            getComments: function(success, error) {
+                //setTimeout(function() {
+                    var commentsArray = [];
+                    // var src = 'https://s3.amazonaws.com/ece1779bucket2/comments-data-chat-right.json?nocache=' + (new Date()).getTime();
+                    var src = 'https://s3.amazonaws.com/ece1779bucket2/comments-data-chat-right.json?nocache=' + (new Date()).getTime();
+                    console.log(src);
+                    $.getJSON(src, function (json) {
+                        //console.log(commentsArray["commentsArray"]);
+                        //console.log(json["commentsArray"]);
+                        //location.reload();
+                    for (var key in json["commentsArray"]) {
+                        if (json.hasOwnProperty("commentsArray")) {
+                            console.log(json["commentsArray"][key])
+                            var item = json["commentsArray"][key];
+                            commentsArray.push({
+                                id: item.id,
+                                parent: item.parent,
+                                created: item.created,
+                                modified: item.modified,
+                                content: item.content,
+                                pings: [],
+                                creator: item.creator,
+                                fullname: item.fullname,
+                                profile_picture_url: item.profile_picture_url,
+                                created_by_admin: item.created_by_admin,
+                                created_by_current_user: item.created_by_current_user,
+                                upvote_count: item.upvote_count,
+                                user_has_upvoted: item.user_has_upvoted
+                            });            
+                        }
+                    }
+                    console.log("print before")
+                    success(commentsArray);
+                    console.log("print after")
+                    });
+                //}, 500);
+            },
+            
+            postComment: function(data, success, error) {
+                setTimeout(function() {
+                $.ajax({
+                        url: '/dev/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            console.log('posted comment');
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 1000);
+            },            
+
+            putComment: function(data, success, error) {
+                setTimeout(function() {
+                    console.log("editing comment");
+                    var now = new Date();
+                    var str = now.toISOString();
+                    $.ajax({
+                        url: '/dev/comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : str,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        } ,
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            console.log("edited comment");
+                            success(saveComment(data));
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                }, 500);
+            },
+            deleteComment: function(data, success, error) {
+                setTimeout(function() {
+                    $.ajax({
+                        url: '/dev/del_comments_right',
+                        type: 'post',
+                        data: { 
+                            id: data.id, 
+                            parent : data.parent,
+                            created : data.created,
+                            modified : data.modified,
+                            content : data.content,
+                            pings : data.pings,
+                            creator : data.creator,
+                            fullname : data.fullname,
+                            profile_picture_url: data.profile_picture_url,
+                            created_by_admin : false,
+                            created_by_current_user : data.created_by_current_user,
+                            upvote_count : data.upvote_count,
+                            user_has_upvoted : data.user_has_upvoted,
+                        },
+                        //contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
                             console.log("deleted");
                             success();
                         },
@@ -327,7 +518,7 @@
             upvoteComment: function(data, success, error) {
                 setTimeout(function() {
                     $.ajax({
-                        url: '/comments_right',
+                        url: '/dev/comments_right',
                         type: 'post',
                         data: { 
                             id: data.id, 
@@ -374,55 +565,10 @@
         console.log($('#comments-container').height())
         console.log($('.comments-container').height())
 
-        $('#comments-container').comments({
-            profilePictureURL: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
-            currentUserId: 1,
-            roundProfilePictures: true,
-            textareaRows: 1,
-            enableAttachments: true,
-            enableHashtags: true,
-            enablePinging: true,
-            getUsers: function(success, error) {
-                setTimeout(function() {
-                    success(usersArray);
-                }, 500);
-            },
-            getComments: function(success, error) {
-                setTimeout(function() {
-                    console.log("commentsArray")
-                    console.log(commentsArray)
-                    success(commentsArray);
-                }, 500);
-            },
-            postComment: function(data, success, error) {
-                setTimeout(function() {
-                    success(saveComment(data));
-                }, 500);
-            },
-            putComment: function(data, success, error) {
-                setTimeout(function() {
-                    success(saveComment(data));
-                }, 500);
-            },
-            deleteComment: function(data, success, error) {
-                setTimeout(function() {
-                    success();
-                }, 500);
-            },
-            upvoteComment: function(data, success, error) {
-                setTimeout(function() {
-                    success(data);
-                }, 500);
-            },
-            uploadAttachments: function(dataArray, success, error) {
-                setTimeout(function() {
-                    success(dataArray);
-                }, 500);
-            },
-        });
-
 
     });
+
+
 </script>
 
 </html>

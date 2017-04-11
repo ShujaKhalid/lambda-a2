@@ -1,6 +1,8 @@
 {
     "dev": {
         "app_function": "run.webapp", 
-        "s3_bucket": "ece1779ucket2"
+        "s3_bucket": "ece1779bucket2",
+		"parameter_depth": 1,
+    	"http_methods": ["GET","POST"]
     }
 }

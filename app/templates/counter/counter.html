@@ -1,0 +1,58 @@
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/ece1779bucket2/counter.css">
+    <script type="text/javascript" src="https://s3.amazonaws.com/ece1779bucket2/jquery-3.2.0.js"></script>
+</head>
+
+<html>
+
+<body>
+    <div class="progressDiv">
+        <div class="statChartHolder">
+            <div class="progress-pie-chart" data-percent={{percent}}><!--Pie Chart -->
+                <div class="ppc-progress">
+                    <div class="ppc-progress-fill"></div>
+                </div>
+                <div class="ppc-percents">
+                <div class="pcc-percents-wrapper">
+                    <span>{{percent}}% Agree</span>
+                </div>
+                </div>
+            </div><!--End Chart -->
+        </div>
+        <div class="statRightHolder">
+            <ul>
+            <li> <h3 class="blue">{{total_votes}}</h3> <span>Interactions</span></li>
+            <li> <h3 class="purple">{{total_comments}}</h3> <span>Comments</span></li>
+            </ul>
+            
+                <ul class="statsLeft">
+                <li><h3 class="yellow">{{likes_right}}</h3> <span>Likes (Agree) </span></li>
+                <li><h3 class="red">{{likes_left}}</h3> <span>Likes (Disagree) </span></li>
+                </ul>
+                    
+                    <ul class="statsRight">
+                        <li><h3>{{agree_votes}}</h3> <span>Agree</span></li>
+                        <li><h3>{{disagree_votes}}</h3> <span>Disagree</span></li>
+                    </ul>
+                    
+        </div>
+        
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function(){
+          var $ppc = $('.progress-pie-chart'),
+            percent = parseInt($ppc.data('percent'));
+            console.log(percent);
+            deg = 360*percent/100;
+          if (percent > 50) {
+            $ppc.addClass('gt-50');
+          }
+          $('.ppc-progress-fill').css('transform','rotate('+ deg +'deg)');
+          $('.ppc-percents span').html(percent+'%');
+        });
+</script>
+

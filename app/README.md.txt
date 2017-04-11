@@ -9,3 +9,5 @@ B.) Database change triggers the write function which converts the database into
 2.) Find a way to write to the javascript file so that its information can be displayed in real time
 3.) Website should go directly to the comments section
 4.) Change the layout of the comments page to include a header and a login button at the top (preferably in a banner)
+5.) Tally up the votes and display them on the dashboard using triggers. 
+6.) 
